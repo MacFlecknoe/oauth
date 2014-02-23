@@ -11,10 +11,6 @@
 	<artifactId>oauth-provider</artifactId>
 	<packaging>war</packaging>
 	<name>OAuth Provider Example</name>
-
-	<properties>
-		<oauth.lib>0.0.1-SNAPSHOT</oauth.lib>
-	</properties>
 	
 	<dependencies>
 		<dependency>
