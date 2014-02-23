@@ -8,9 +8,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-
 	<artifactId>oauth-provider</artifactId>
-
 	<packaging>war</packaging>
 	<name>OAuth Provider Example</name>
 
