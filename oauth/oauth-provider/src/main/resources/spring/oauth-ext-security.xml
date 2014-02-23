@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<bean id="http403EntryPoint" 
+		class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+
+	<bean id="passThroughUserDetailsService" 
+		class="com.jnj.wp.security.externaluser.PassthroughUserDetailsService" />
+		
+	<bean id="preauthAuthProvider"
+		class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+		<property name="preAuthenticatedUserDetailsService">
+			<bean id="userDetailsServiceWrapper"
+				class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<property name="userDetailsService" ref="passThroughUserDetailsService"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="requestHeaderAuthorizationFilter" 
+		class="org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter">
+		<property name="principalRequestHeader" value="externalUserId"/>
+		<property name="authenticationManager" ref="preAuthAuthenticationManager"/>
+	</bean>
+	
+	<bean id="filterWrapper" 
+		class="com.jnj.wp.security.externaluser.RequestHeaderAuthenticationFilterWrapper">
+		<constructor-arg index="0" ref="requestHeaderAuthorizationFilter"  />
+	</bean>
+	
+	<authentication-manager id="preAuthAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+		<authentication-provider ref="preauthAuthProvider" />
+	</authentication-manager>
+	
+	<http pattern="/oauth/ext/authorization_code" create-session="stateless"
+		xmlns="http://www.springframework.org/schema/security" entry-point-ref="http403EntryPoint">
+		<intercept-url pattern="/**" method="GET" access="ROLE_DENY" />
+		<intercept-url pattern="/**" method="PUT" access="ROLE_DENY" />
+		<intercept-url pattern="/**" method="DELETE" access="ROLE_DENY" />
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+		<anonymous enabled="false" />
+		<custom-filter position="PRE_AUTH_FILTER" ref="filterWrapper" />
+		<expression-handler ref="oauthExpressionHandler"/>
+		<access-denied-handler ref="oauthAccessDeniedHandler" />
+	</http>
+		
+</beans>

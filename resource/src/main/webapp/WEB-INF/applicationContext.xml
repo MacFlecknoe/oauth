@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://camel.apache.org/schema/spring 
+		http://camel.apache.org/schema/spring/camel-spring.xsd">
+	
+	<context:property-placeholder location="classpath:/${app_env:local}-application.properties" />
+	
+	<import resource="classpath*:spring/datasource.xml"/>
+	
+	<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+		<constructor-arg index="0" ref="dataSource"  />
+	</bean>
+	
+	<bean id="tokenProcessor" class="com.jnj.wp.oauth.camel.processor.OauthTokenProcessor">
+		<constructor-arg index="0" ref="tokenStore"  />
+	</bean>
+	
+	<!--  we setup the proxy here; it forwards all calls from the camel context (/proxy) to /resource -->
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<!-- 
+			camel does not support property replacement within a "uri" attribute due to an outstanding bug in spring. the workaround is to
+			use properties in an endpoint and reference the endpoint from within the uri attribute 
+		-->
+		<endpoint id="messageService" uri="${messageService.url}?bridgeEndpoint=true&amp;throwExceptionOnFailure=false"/>
+		<route>
+			<from uri="servlet:myapp?matchOnUriPrefix=true" />
+			<process ref="tokenProcessor" /> 
+			<to uri="ref:messageService" />
+		</route>
+	</camelContext>
+</beans>

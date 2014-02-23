@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2
+		http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- The OAuth2 protected resources are separated out into their own block -->
+	<!-- 
+		entry-point-ref: called if the client requests a secure HTTP resource but is not authenticated 
+		access-denied-handler: maps exceptions to HTTP equivalents  (e.g. Unauthorized or AccessDenied) 
+		access-decision-manager-ref: decides whether client can access resource. includes scope voter, role voter, authenticated voter 
+		intercept-url: defines pattern and required scope to access resource 
+		expression-handler: #oauth2.clientHasRole('ROLE_ADMIN') #oauth2.sufficientScope(#oauth2.hasScope('read') or (#oauth2.hasScope('other')) etc.
+	-->
+	<!-- we secure the camel proxy url only; the original /message service remain unencumbered -->
+	<http pattern="/secure/message/**" create-session="never"
+		entry-point-ref="oauthAuthenticationEntryPoint"
+		access-decision-manager-ref="accessDecisionManager"
+		xmlns="http://www.springframework.org/schema/security">
+		<anonymous enabled="false" />
+		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+		<expression-handler ref="oauthExpressionHandler"/>
+		<access-denied-handler ref="oauthAccessDeniedHandler" />
+		<intercept-url pattern="/secure/message" method="GET" access="ROLE_USER, SCOPE_READ" />
+		<intercept-url pattern="/secure/message/**" method="GET" access="ROLE_USER, SCOPE_READ" />
+		<intercept-url pattern="/secure/message" method="POST" access="ROLE_USER, SCOPE_WRITE" />
+		<intercept-url pattern="/secure/message/**" method="POST" access="ROLE_USER, SCOPE_WRITE" />
+	</http>
+
+	<!-- informs client no Authentication object exists -->
+	<bean id="oauthAuthenticationEntryPoint"
+		class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+		<property name="realmName" value="oauth" />
+	</bean>
+	
+	<!-- make sure the client has proper scope, the user has proper permissions 
+		and the client has proper level of authentication (FULLY|REMEMBERED|ANONYMOUS) -->
+	<bean id="accessDecisionManager" 
+		class="org.springframework.security.access.vote.UnanimousBased"
+		xmlns="http://www.springframework.org/schema/beans">
+		<constructor-arg>
+			<list> 
+				<bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
+				<bean class="org.springframework.security.access.vote.RoleVoter" />
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- translates AuthenticationException to UnauthorizedException and AccessDeniedException to ForbiddenException -->
+	<bean id="oauthAccessDeniedHandler"
+		class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+
+	<oauth:expression-handler id="oauthExpressionHandler" />
+	
+	<!-- resource-id must be assigned to client -->
+	<oauth:resource-server id="resourceServerFilter" 
+		resource-id="message" 
+		token-services-ref="tokenServices" />
+		
+	<bean id="tokenServices"
+		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+		<property name="tokenStore" ref="tokenStore" />
+		<property name="supportRefreshToken" value="true" />
+		<!-- for looking up security details related to token generation for clients -->
+		<property name="clientDetailsService" ref="clientDetails" />
+	</bean>
+	 
+	<!-- uses oauth_refresh_token table -->
+	<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+		<constructor-arg index="0" ref="dataSource"  />
+	</bean>
+	
+	<bean id="clientDetails" class="org.springframework.security.oauth2.provider.JdbcClientDetailsService">
+		<constructor-arg index="0" ref="dataSource"  />
+	</bean>
+	
+	<!--  this is required by spring security to start up -->
+	<authentication-manager xmlns="http://www.springframework.org/schema/security" />
+	
+</beans>

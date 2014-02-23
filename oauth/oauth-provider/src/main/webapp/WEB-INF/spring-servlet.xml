@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 
+		http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- grabs prefix of file from environmental variable; defaults to 'local' -->
+	<context:property-placeholder location="classpath:/${app_env:local}-application.properties" />
+
+	<import resource="classpath*:spring/datasource.xml"/>
+	<import resource="classpath*:spring/oauth-ext-security.xml"/>
+	<import resource="classpath*:spring/oauth-security.xml"/>
+
+	<bean class="com.jnj.wp.oauth.ws.AuthorizationCodeService">
+		<constructor-arg index="0">
+			<bean class="org.springframework.security.oauth2.provider.DefaultAuthorizationRequestManager">
+				<constructor-arg index="0" ref="clientDetails" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" ref="authcodeServices" />
+		<constructor-arg index="2" ref="clientDetails" />
+	</bean>
+	
+	<mvc:annotation-driven />
+	<mvc:default-servlet-handler />
+	
+</beans>
