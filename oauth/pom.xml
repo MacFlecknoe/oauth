@@ -46,7 +46,6 @@
 				<groupId>org.glassfish.web</groupId>
 				<artifactId>el-impl</artifactId>
 				<version>${el-impl.version}</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.camel</groupId>
@@ -127,7 +126,6 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -148,14 +146,12 @@
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derbyclient</artifactId>
 				<version>${derbyclient.version}</version>
-				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<!-- Needed for testing (with Spring 4 only), but not at runtime -->
 				<version>${javax.servlet-api.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -166,13 +162,11 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>${httpclient.version}</version>
-				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
