@@ -35,6 +35,7 @@
 		<javax.el-api.version>3.0.0</javax.el-api.version>
 		<el-impl.version>2.2</el-impl.version>
 	</properties>
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -170,4 +171,5 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
 </project>
