@@ -17,14 +17,16 @@ import org.springframework.util.StringUtils;
  */
 public class OauthTokenProcessor implements Processor {
 
-	private final String AUTHORIZATION_HEADER = "Authorization";
+	private final static String AUTHORIZATION_HEADER = "Authorization";
+	// this is the W+P standard header name used to identify end users to service providers (see Ryan Boldman)
+	private final static String EXTERNAL_USER_ID_HEADER = "externalUserId";
 	
 	private final TokenStore store;
 	private final String userNameHeader;
 	private final boolean removeAuthHeader;
 	
 	public OauthTokenProcessor(TokenStore store) {
-		this(store, "externalUserId", false);
+		this(store, EXTERNAL_USER_ID_HEADER, false);
 	}
 	
 	public OauthTokenProcessor(TokenStore store, String userNameHeader, boolean removeAuthHeader) {
