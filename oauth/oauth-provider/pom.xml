@@ -13,14 +13,14 @@
 	<name>OAuth Provider Example</name>
 
 	<properties>
-		<wp.oauth.lib>0.0.1-SNAPSHOT</wp.oauth.lib>
+		<oauth.lib>0.0.1-SNAPSHOT</oauth.lib>
 	</properties>
 	
 	<dependencies>
 		<dependency>
 			<groupId>com.jnj.wp</groupId>
 			<artifactId>oauth-lib</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
