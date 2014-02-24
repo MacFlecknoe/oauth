@@ -31,8 +31,8 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 public class RequestHeaderAuthenticationFilterWrapper extends GenericFilterBean {
 
-	private RequestHeaderAuthenticationFilter filter;
-	private AuthenticationEntryPoint entryPoint;
+	private final RequestHeaderAuthenticationFilter filter;
+	private final AuthenticationEntryPoint entryPoint;
 
 	public RequestHeaderAuthenticationFilterWrapper(RequestHeaderAuthenticationFilter filter) {
 		this(filter, new Http403ForbiddenEntryPoint());
