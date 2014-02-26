@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
  * </p>
  * <p>
  * I am not convinced that this is the correct data format for the returned information but we are under a tight deadline.
- * Please note that the added attribute "resource_owner" is <strong>NON-STANDARD</strong>!
+ * Please note that the added attribute "ext_resource_owner" is <strong>NON-STANDARD</strong>!
  * </p>
  *
  */
