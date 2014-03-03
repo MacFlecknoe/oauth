@@ -37,6 +37,7 @@
 		<org.apache.bval.verion>0.5</org.apache.bval.verion>
 		<slf4j-api.verion>1.7.6</slf4j-api.verion>
 		<flyway-maven-plugin-version>2.3</flyway-maven-plugin-version>
+		<cargo.plugin.version>1.4.7</cargo.plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -190,7 +191,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -211,8 +212,42 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+				<plugin>
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<version>${cargo.plugin.version}</version>
+					<configuration>
+						<container>
+							<containerId>jboss51x</containerId>
+							<type>remote</type>
+						</container>
+						<configuration>
+							<type>runtime</type>
+							<properties>
+								<cargo.remote.username>admin</cargo.remote.username>
+								<cargo.remote.password>admin</cargo.remote.password>
+								<cargo.hostname>localhost</cargo.hostname>
+								<cargo.rmi.port>1099</cargo.rmi.port>
+							</properties>
+						</configuration>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<!-- deployed by hand to local artifactory; jar taken from jboss 5.1 install (jboss-profileservice-client.jar) -->
+							<groupId>org.jboss.integration</groupId>
+							<artifactId>jboss-profileservice-spi</artifactId>
+							<version>5.1.0.EAP</version>
+						</dependency>
+						<dependency>
+							<groupId>org.jboss.jbossas</groupId>
+							<artifactId>jboss-as-client</artifactId>
+							<version>5.1.0.GA</version>
+							<type>pom</type>
+						</dependency>
+					</dependencies>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 </project>

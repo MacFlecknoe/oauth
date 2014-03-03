@@ -121,15 +121,54 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
+
+	<repositories>
+		<repository>
+			<id>maven-nuxeo</id>
+			<name>Maven Nuxeo Repository</name>
+			<url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<!-- Some transitive dependencies of JBoss artifacts, for example apache-xerces:xml-apis, 
+		are only available on the JBoss third party repository. -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven-nuxeo</id>
+			<name>Maven Nuxeo Repository</name>
+			<url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>com.googlecode.flyway</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>
 
