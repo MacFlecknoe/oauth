@@ -212,6 +212,7 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+				<!-- mvn cargo:deploy -->
 				<plugin>
 					<groupId>org.codehaus.cargo</groupId>
 					<artifactId>cargo-maven2-plugin</artifactId>
