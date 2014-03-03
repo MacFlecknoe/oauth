@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
+
 	<parent>
 		<groupId>com.jnj.wp</groupId>
 		<artifactId>oauth</artifactId>
@@ -11,7 +11,7 @@
 	<artifactId>oauth-provider</artifactId>
 	<packaging>war</packaging>
 	<name>OAuth Provider Example</name>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.jnj.wp</groupId>
@@ -124,61 +124,21 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.5</version>
+				<groupId>com.googlecode.flyway</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway-maven-plugin-version}</version>
+				<configuration>
+					<driver>org.apache.derby.jdbc.ClientDriver</driver>
+					<url>jdbc:derby://localhost:50000/oauth;create=true</url>
+					<user>app</user>
+				</configuration>
 				<dependencies>
-					<!-- specify the dependent jdbc driver here -->
 					<dependency>
 						<groupId>org.apache.derby</groupId>
 						<artifactId>derbyclient</artifactId>
 						<version>${derbyclient.version}</version>
 					</dependency>
 				</dependencies>
-				<!-- common configuration shared by all executions -->
-				<configuration>
-					<driver>org.apache.derby.jdbc.ClientDriver</driver>
-					<url>jdbc:derby://localhost:50000/oauth;create=true</url>
-					<!-- You can comment out username/password configurations and have maven 
-						to look them up in your settings.xml using ${settingsKey} -->
-					<username>APP</username>
-					<password>APP</password>
-					<settingsKey>sensibleKey</settingsKey>
-					<!--all executions are ignored if -Dmaven.test.skip=true -->
-					<skip>${maven.test.skip}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>create-schema</id>
-						<phase>process-test-resources</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<autocommit>true</autocommit>
-							<srcFiles>
-								<srcFile>src/main/resources/data/schema.ddl</srcFile>
-							</srcFiles>
-							<onError>continue</onError>
-						</configuration>
-					</execution>
-					<execution>
-						<id>create-data</id>
-						<phase>process-test-resources</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<orderFile>ascending</orderFile>
-							<fileset>
-								<basedir>${basedir}</basedir>
-								<includes>
-									<include>src/main/resources/data/data.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

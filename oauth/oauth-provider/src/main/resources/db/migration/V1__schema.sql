@@ -1,10 +1,3 @@
-drop table oauth_client_details;
-drop table oauth_client_token;
-drop table oauth_access_token;
-drop table oauth_refresh_token;
-drop table oauth_code;
-drop table oauth_approvals;
-
 /* Note: Derby's equivalent to JDBC's LONGVARBINARY type is "LONG VARCHAR FOR BIT DATA" */
 create table oauth_client_details (
 	client_id VARCHAR(256) PRIMARY KEY,

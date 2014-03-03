@@ -36,6 +36,7 @@
 		<el-impl.version>2.2</el-impl.version>
 		<org.apache.bval.verion>0.5</org.apache.bval.verion>
 		<slf4j-api.verion>1.7.6</slf4j-api.verion>
+		<flyway-maven-plugin-version>2.3</flyway-maven-plugin-version>
 	</properties>
 	
 	<dependencyManagement>
