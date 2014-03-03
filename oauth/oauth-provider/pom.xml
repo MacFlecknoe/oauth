@@ -126,19 +126,6 @@
 			<plugin>
 				<groupId>com.googlecode.flyway</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway-maven-plugin-version}</version>
-				<configuration>
-					<driver>org.apache.derby.jdbc.ClientDriver</driver>
-					<url>jdbc:derby://localhost:50000/oauth;create=true</url>
-					<user>app</user>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.derby</groupId>
-						<artifactId>derbyclient</artifactId>
-						<version>${derbyclient.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

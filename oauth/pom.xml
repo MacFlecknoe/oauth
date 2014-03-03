@@ -38,7 +38,7 @@
 		<slf4j-api.verion>1.7.6</slf4j-api.verion>
 		<flyway-maven-plugin-version>2.3</flyway-maven-plugin-version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -190,5 +190,27 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.googlecode.flyway</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>${flyway-maven-plugin-version}</version>
+					<configuration>
+						<driver>org.apache.derby.jdbc.ClientDriver</driver>
+						<url>jdbc:derby://localhost:50000/oauth;create=true</url>
+						<user>app</user>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.derby</groupId>
+							<artifactId>derbyclient</artifactId>
+							<version>${derbyclient.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
