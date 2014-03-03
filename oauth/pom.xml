@@ -65,7 +65,7 @@
 				<groupId>org.apache.camel</groupId>
 				<artifactId>camel-core</artifactId>
 				<version>${camel.version}</version>
-				<!-- done for boss 5.1 -->
+				<!-- done for jboss 5.1 -->
 				<exclusions>
 					<exclusion>
 						<groupId>org.slf4j</groupId>
