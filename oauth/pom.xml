@@ -234,8 +234,9 @@
 
 	<build>
 		<pluginManagement>
-			<!-- mvn compile flyway:migrate -->
 			<plugins>
+				<!--  mvn compile flyway:clean (drops database)-->
+				<!-- mvn compile flyway:migrate (creates and seeds database with test data) -->
 				<plugin>
 					<groupId>com.googlecode.flyway</groupId>
 					<artifactId>flyway-maven-plugin</artifactId>
@@ -253,7 +254,7 @@
 						</dependency>
 					</dependencies>
 				</plugin>
-				<!-- mvn cargo:deploy -->
+				<!-- mvn cargo:deploy (deploys into jboss container) -->
 				<plugin>
 					<groupId>org.codehaus.cargo</groupId>
 					<artifactId>cargo-maven2-plugin</artifactId>
@@ -275,8 +276,11 @@
 					</configuration>
 					<dependencies>
 						<dependency>
-							<!-- deployed by hand to local artifactory; jar taken from jboss 5.1 
-								install (jboss-profileservice-client.jar) -->
+							<!-- 
+								needs to be deployed by hand to local artifact repository; 
+								jboss-profileservice-client.jar taken from jboss 5.1 install: 
+								(e.g. $JBOSS_HOME/jboss-as/client/jboss-profileservice-client.jar) 
+							-->
 							<groupId>org.jboss.integration</groupId>
 							<artifactId>jboss-profileservice-spi</artifactId>
 							<version>${jboss-profileservice-spi.version}</version>
