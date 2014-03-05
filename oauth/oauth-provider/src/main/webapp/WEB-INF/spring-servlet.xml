@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 	<!-- grabs prefix of file from environmental variable; defaults to 'local' -->
-	<context:property-placeholder location="classpath:/${app_env:local}-application.properties" />
+	<context:property-placeholder location="classpath:/${environment:local}-application.properties" />
 
 	<import resource="classpath*:spring/datasource.xml"/>
 	<import resource="classpath*:spring/oauth-ext-security.xml"/>

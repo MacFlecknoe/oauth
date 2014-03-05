@@ -16,6 +16,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- dependency versions -->
 		<spring.version>3.2.5.RELEASE</spring.version>
 		<spring.security.version>3.2.0.RELEASE</spring.security.version>
 		<java.version>1.6</java.version>
@@ -38,6 +40,8 @@
 		<slf4j-api.verion>1.7.6</slf4j-api.verion>
 		<flyway-maven-plugin-version>2.3</flyway-maven-plugin-version>
 		<cargo.plugin.version>1.4.7</cargo.plugin.version>
+		<jboss-profileservice-spi.version>5.1.0.EAP</jboss-profileservice-spi.version>
+		<jboss-as-client.version>5.1.0.GA</jboss-as-client.version>
 	</properties>
 
 	<dependencyManagement>
@@ -191,10 +195,9 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	<!-- 
-		Some transitive dependencies of JBoss artifacts, for example apache-xerces:xml-apis, are only available on the JBoss third party repository. 
-	-->
+
+	<!-- Some transitive dependencies of JBoss artifacts, for example apache-xerces:xml-apis, 
+		are only available on the JBoss third party repository. -->
 	<repositories>
 		<repository>
 			<id>maven-nuxeo</id>
@@ -211,7 +214,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>maven-nuxeo</id>
@@ -231,15 +234,16 @@
 
 	<build>
 		<pluginManagement>
+			<!-- mvn compile flyway:migrate -->
 			<plugins>
 				<plugin>
 					<groupId>com.googlecode.flyway</groupId>
 					<artifactId>flyway-maven-plugin</artifactId>
 					<version>${flyway-maven-plugin-version}</version>
 					<configuration>
-						<driver>org.apache.derby.jdbc.ClientDriver</driver>
-						<url>jdbc:derby://localhost:50000/oauth;create=true</url>
-						<user>app</user>
+						<driver>${flyway.jdbc.driver}</driver>
+						<url>${flyway.jdbc.url}</url>
+						<user>${flyway.user}</user>
 					</configuration>
 					<dependencies>
 						<dependency>
@@ -262,24 +266,25 @@
 						<configuration>
 							<type>runtime</type>
 							<properties>
-								<cargo.remote.username>admin</cargo.remote.username>
-								<cargo.remote.password>admin</cargo.remote.password>
-								<cargo.hostname>localhost</cargo.hostname>
-								<cargo.rmi.port>1099</cargo.rmi.port>
+								<cargo.remote.username>${cargo.remote.username}</cargo.remote.username>
+								<cargo.remote.password>${cargo.remote.password}</cargo.remote.password>
+								<cargo.hostname>${cargo.hostname}</cargo.hostname>
+								<cargo.rmi.port>${cargo.rmi.port}</cargo.rmi.port>
 							</properties>
 						</configuration>
 					</configuration>
 					<dependencies>
 						<dependency>
-							<!-- deployed by hand to local artifactory; jar taken from jboss 5.1 install (jboss-profileservice-client.jar) -->
+							<!-- deployed by hand to local artifactory; jar taken from jboss 5.1 
+								install (jboss-profileservice-client.jar) -->
 							<groupId>org.jboss.integration</groupId>
 							<artifactId>jboss-profileservice-spi</artifactId>
-							<version>5.1.0.EAP</version>
+							<version>${jboss-profileservice-spi.version}</version>
 						</dependency>
 						<dependency>
 							<groupId>org.jboss.jbossas</groupId>
 							<artifactId>jboss-as-client</artifactId>
-							<version>5.1.0.GA</version>
+							<version>${jboss-as-client.version}</version>
 							<type>pom</type>
 						</dependency>
 					</dependencies>
@@ -288,4 +293,29 @@
 		</pluginManagement>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>localhost</id>
+			<activation>
+				<activeByDefault>true</activeByDefault> 
+				<!--  trigger the profile when the system property "environment" is specified with the value "local" -->
+				<property>
+					<name>environment</name>
+					<value>local</value>
+				</property>
+			</activation>
+			<properties>
+				<!-- flyway plugin -->
+				<flyway.jdbc.url>jdbc:derby://localhost:50000/oauth;create=true</flyway.jdbc.url>
+				<flyway.jdbc.driver>org.apache.derby.jdbc.ClientDriver</flyway.jdbc.driver>
+				<flyway.user>app</flyway.user>
+
+				<!-- cargo plugin -->
+				<cargo.remote.username>admin</cargo.remote.username>
+				<cargo.remote.password>admin</cargo.remote.password>
+				<cargo.hostname>localhost</cargo.hostname>
+				<cargo.rmi.port>1099</cargo.rmi.port>
+			</properties>
+		</profile>
+	</profiles>
 </project>

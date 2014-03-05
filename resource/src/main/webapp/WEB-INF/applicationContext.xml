@@ -9,7 +9,7 @@
 		http://camel.apache.org/schema/spring 
 		http://camel.apache.org/schema/spring/camel-spring.xsd">
 	
-	<context:property-placeholder location="classpath:/${app_env:local}-application.properties" />
+	<context:property-placeholder location="classpath:/${environment:local}-application.properties" />
 	
 	<import resource="classpath*:spring/datasource.xml"/>
 	
