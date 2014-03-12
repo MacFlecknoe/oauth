@@ -26,7 +26,7 @@
 		<constructor-arg index="1" value="${messageService.baseUrl}"  />
 	</bean>
 	
-	<!--  we setup the proxy here; it forwards all calls from the camel context (/proxy) to /resource -->
+	<!--  we setup the proxy here; it forwards all calls from /resource/secure/message to /resource/message -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
 		<routeBuilder ref="oauthProxy" />
 	</camelContext>
