@@ -28,10 +28,6 @@
 	
 	<!--  we setup the proxy here; it forwards all calls from the camel context (/proxy) to /resource -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
-		<!-- 
-			camel does not support property replacement within a "uri" attribute due to an outstanding bug in spring. the workaround is to
-			use properties in an endpoint and reference the endpoint from within the uri attribute 
-		-->
 		<routeBuilder ref="oauthProxy" />
 	</camelContext>
 </beans>
