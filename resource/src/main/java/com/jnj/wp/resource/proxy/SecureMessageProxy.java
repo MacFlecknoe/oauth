@@ -27,8 +27,8 @@ public class SecureMessageProxy extends RouteBuilder {
 	public SecureMessageProxy(Processor processor, String baseUrl) {
 		this.processor = processor;
 		this.serviceUrl = new StringBuilder(baseUrl)
-			.append("message/")
-			.append("${header.externalUserId}")
+			.append("/message")
+			.append("/${header.externalUserId}")
 			.append("?throwExceptionOnFailure=false").toString();
 	}
 	
