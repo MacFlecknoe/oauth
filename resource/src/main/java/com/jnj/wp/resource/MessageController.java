@@ -1,4 +1,4 @@
-package com.example.resource;
+package com.jnj.wp.resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
