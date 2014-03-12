@@ -15,7 +15,7 @@ import org.apache.camel.builder.RouteBuilder;
  * </p>
  * <p>
  * The proxy expects the authenticated user's id to be placed in the "externalUserId" HTTP header by the configured processor. The injected 
- * processor therefore will be tightly coupled to the authentication mechanism being used.
+ * processor therefore will likely be tightly coupled to the authentication mechanism being used.
  * </p>
  * 
  * @author mlamber7
