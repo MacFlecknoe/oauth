@@ -21,13 +21,13 @@
 		<constructor-arg index="0" ref="tokenStore"  />
 	</bean>
 	
-	<bean id="oauthProxy" class="com.jnj.wp.oauth.camel.route.OauthMessageProxy">
-		<constructor-arg index="0" ref="tokenStore"  />
+	<bean id="secureMessageServiceProxy" class="com.jnj.wp.oauth.resource.proxy.SecureMessageProxy">
+		<constructor-arg index="0" ref="tokenProcessor"  />
 		<constructor-arg index="1" value="${messageService.baseUrl}"  />
 	</bean>
 	
 	<!--  we setup the proxy here; it forwards all calls from /resource/secure/message to /resource/message -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
-		<routeBuilder ref="oauthProxy" />
+		<routeBuilder ref="secureMessageServiceProxy" />
 	</camelContext>
 </beans>
