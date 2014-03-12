@@ -21,7 +21,7 @@
 		<constructor-arg index="0" ref="tokenStore"  />
 	</bean>
 	
-	<bean id="secureProxy" class="com.jnj.wp.oauth.camel.route.SecureProxy"/>
+	<bean id="testProxy" class="com.jnj.wp.oauth.camel.route.TestProxy"/>
 	
 	<!--  we setup the proxy here; it forwards all calls from the camel context (/proxy) to /resource -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
@@ -29,7 +29,7 @@
 			camel does not support property replacement within a "uri" attribute due to an outstanding bug in spring. the workaround is to
 			use properties in an endpoint and reference the endpoint from within the uri attribute 
 		-->
-		<routeBuilder ref="secureProxy" />
+		<routeBuilder ref="testProxy" />
 		
 		<endpoint id="messageService" uri="${messageService.url}?bridgeEndpoint=true&amp;throwExceptionOnFailure=false"/>
 		<route>
