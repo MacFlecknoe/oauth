@@ -1,4 +1,4 @@
-package com.jnj.wp.oauth.resource.proxy;
+package com.jnj.wp.resource.proxy;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;

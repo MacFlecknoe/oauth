@@ -21,7 +21,7 @@
 		<constructor-arg index="0" ref="tokenStore"  />
 	</bean>
 	
-	<bean id="secureMessageServiceProxy" class="com.jnj.wp.oauth.resource.proxy.SecureMessageProxy">
+	<bean id="secureMessageServiceProxy" class="com.jnj.wp.resource.proxy.SecureMessageProxy">
 		<constructor-arg index="0" ref="tokenProcessor"  />
 		<constructor-arg index="1" value="${messageService.baseUrl}"  />
 	</bean>
