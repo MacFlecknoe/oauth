@@ -29,9 +29,10 @@
 		-->
 		<endpoint id="messageService" uri="${messageService.url}?bridgeEndpoint=true&amp;throwExceptionOnFailure=false"/>
 		<route>
-			<from uri="servlet:///secure/message/?matchOnUriPrefix=true" />
+			<from uri="servlet:///message?matchOnUriPrefix=true" />
 			<process ref="tokenProcessor" /> 
 			<to uri="ref:messageService" />
 		</route>
+		
 	</camelContext>
 </beans>
