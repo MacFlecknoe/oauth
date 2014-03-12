@@ -39,6 +39,6 @@ public class SecureMessageProxy extends RouteBuilder {
 		from("servlet:///message?matchOnUriPrefix=true")
 			.process(processor)
 			.setHeader(Exchange.HTTP_URI, simple(serviceUrl))
-			.to("http://dummyhost");
+			.to("http4://dummyhost");
 	}
 }

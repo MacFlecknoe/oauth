@@ -19,7 +19,7 @@
 		<cglib.version>2.2.2</cglib.version>
 		<junit.version>4.8.2</junit.version>
 		<jstl.version>1.2</jstl.version>
-		<httpclient.version>4.3.1</httpclient.version>
+		<httpclient.version>4.3.3</httpclient.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<derbyclient.version>10.10.1.1</derbyclient.version>
 		<jaxb-api.version>2.2.11</jaxb-api.version>
@@ -43,6 +43,11 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-servlet</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http4</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
@@ -155,7 +160,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
