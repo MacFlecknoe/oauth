@@ -21,7 +21,10 @@
 		<constructor-arg index="0" ref="tokenStore"  />
 	</bean>
 	
-	<bean id="testProxy" class="com.jnj.wp.oauth.camel.route.TestProxy"/>
+	<bean id="oauthProxy" class="com.jnj.wp.oauth.camel.route.OauthMessageProxy">
+		<constructor-arg index="0" ref="tokenStore"  />
+		<constructor-arg index="1" value="${messageService.baseUrl}"  />
+	</bean>
 	
 	<!--  we setup the proxy here; it forwards all calls from the camel context (/proxy) to /resource -->
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
@@ -29,14 +32,6 @@
 			camel does not support property replacement within a "uri" attribute due to an outstanding bug in spring. the workaround is to
 			use properties in an endpoint and reference the endpoint from within the uri attribute 
 		-->
-		<routeBuilder ref="testProxy" />
-		
-		<endpoint id="messageService" uri="${messageService.url}?bridgeEndpoint=true&amp;throwExceptionOnFailure=false"/>
-		<route>
-			<from uri="servlet:///message?matchOnUriPrefix=true" />
-			<process ref="tokenProcessor" /> 
-			<to uri="ref:messageService" />
-		</route>
-		
+		<routeBuilder ref="oauthProxy" />
 	</camelContext>
 </beans>
