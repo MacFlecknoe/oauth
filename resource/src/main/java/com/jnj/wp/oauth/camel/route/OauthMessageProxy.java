@@ -7,7 +7,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import com.jnj.wp.oauth.camel.processor.OauthTokenProcessor;
 
 /**
- * Example route code.
+ * Securely wraps the message server with oauth authentication. The proxy accepts calls to an exposed generic "message" server and 
+ * forwards it to the actual service after appending the authenticated user's id to the url.
  * 
  * @author mlamber7
  *
