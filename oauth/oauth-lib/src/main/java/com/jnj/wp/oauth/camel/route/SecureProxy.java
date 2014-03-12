@@ -24,7 +24,7 @@ public class SecureProxy extends RouteBuilder {
 	
 	@Override
 	public void configure() throws Exception {
-		from("servlet:///message?matchOnUriPrefix=true")
+		from("servlet:///profile?matchOnUriPrefix=true")
 		.process(processor)
 		.setHeader(Exchange.HTTP_URI, simple("http://google.com/${header.externalUserId}?bridgeEndpoint=true&amp;throwExceptionOnFailure=false"))
 		.to("http://dummyhost");
