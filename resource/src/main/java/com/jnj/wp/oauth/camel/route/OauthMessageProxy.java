@@ -20,7 +20,10 @@ public class OauthMessageProxy extends RouteBuilder {
 	
 	public OauthMessageProxy(TokenStore store, String baseUrl) {
 		this.processor = new OauthTokenProcessor(store);
-		this.url = new StringBuilder(baseUrl).append("message/${header.externalUserId}?throwExceptionOnFailure=false").toString();
+		this.url = new StringBuilder(baseUrl)
+			.append("message/")
+			.append("${header.").append(OauthTokenProcessor.EXTERNAL_USER_ID_HEADER).append("}")
+			.append("?throwExceptionOnFailure=false").toString();
 	}
 	
 	@Override
