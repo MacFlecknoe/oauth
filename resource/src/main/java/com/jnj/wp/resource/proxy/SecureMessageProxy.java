@@ -7,7 +7,7 @@ import org.apache.camel.builder.RouteBuilder;
 /**
  * <p>
  * The proxy accepts calls to an exposed generic "message" server and forwards them to the actual message service after appending the 
- * user's id to the url. (e.g. calls to http://server/context/secure/message are forwarded to http://server/context/message/{user_id})
+ * user's id to the url. (e.g. calls to http://server/webContext/camelContext/message are forwarded to http://server/webContext/message/{userId})
  * </p>
  * <p>
  * In accordance to the Law of Demeter, the proxy class is not burdened with authentication but merely provides an endpoint to secure; 
