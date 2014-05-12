@@ -12,5 +12,5 @@ Instantiate schemas and populate the database with sample data by executing 'mvn
 
 The resource project consists of an unsecured example web service (mapped to /message/{id}) as well as a secure proxy service (mapped to /secure/message). The proxy service is a camel servlet component configured in applicationContext.xml; its security wrapper is configured in oauth-security.xml.
 
-The oauth project is a realization of the spring oauth provider implementation with the addition of two custom extensions. The first customization is a service which allows for the direct creation of authorization codes without having to issue redirects to the end user (ala Hulu Plus on the Roku); the second customization adds customer ids to the output of the token service.
+The oauth project is a realization of the spring oauth provider implementation with the addition of two custom extensions. The first customization is a service which allows for the direct creation of authorization codes without having to issue redirects to the end user (ala Hulu Plus on the Roku); this is a bastardization of the "device flow" that didnt make it into the offical oauth spec and so isnt supported by spring's oauth implementation; the second customization adds customer ids to the output of the token service.
 
