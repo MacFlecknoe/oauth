@@ -81,6 +81,7 @@
 		<oauth:refresh-token />
 		<oauth:client-credentials />
 		<oauth:password />
+		<!-- <oauth:password authentication-manager-ref="userCredentialsAuthenticationManager"/> -->
 	</oauth:authorization-server>
 	
 	<authentication-manager id="clientAuthenticationManager"
@@ -136,5 +137,5 @@
 	<!--  difference? -->
 	<oauth:expression-handler id="oauthExpressionHandler" />
 	<oauth:web-expression-handler id="oauthWebExpressionHandler" />
-	
+    	
 </beans>
